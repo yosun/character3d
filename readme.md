@@ -13,14 +13,7 @@ The user sends data posted a form variable called `query` (for the hackathon, pl
 
 And the app expects a response in this format: 
 
-```
-public class GeneralizedEndpointResponse
-{
-    public string query; // nice to have (the original query the user sent) 
-    public string txtresponse; // required 
-    public string urlpolly; // url to a MP3 file - optional, by default AWS Polly will be used to text to speech
-}
-```
+ 
 json version of it (replace values with your own, not the commented dummy text)
 ``` 
 {
