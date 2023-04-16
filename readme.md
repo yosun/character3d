@@ -5,7 +5,9 @@ as long as your endpoint returns the response below, the 3d talking head will be
 The user sends data posted a form variable called `query` (for the hackathon, please do NOT use json... just imagine if your endpoint accepted a `input field name="query"`), equivalent to this web form post: 
 
 ```
+<form method="POST">
 <input name="query" value="[user chat]" />
+</form>
 ```
 
 
