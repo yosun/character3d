@@ -30,3 +30,8 @@ App ->> Server: post a query variable to endpoint
 Server ->> App: returns GeneralizedEndpointResponse json 
 App ->> User: 3d talking head
 ```
+
+Here is the order of prefrence of content for the talking head:
+
+1. `urlpolly` - if you have a mp3, the talking head will animated from that
+2. if not, then we will generate it from `txtresponse` 
