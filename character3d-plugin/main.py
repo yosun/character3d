@@ -1,12 +1,14 @@
 import os
 import quart
 import quart_cors
+import requests
 from quart import Quart, jsonify, request
 
-PORT = 5002
+PORT = 5004
 TODOS = {}
 # Get authentication key from environment variable
 SERVICE_AUTH_KEY = os.environ.get("SERVICE_AUTH_KEY")
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 
 
 # Create a Quart app and enable CORS
@@ -25,14 +27,46 @@ def assert_auth_header():
   auth_header = request.headers.get("Authorization")
   print(auth_header)
   # check if the header is missing or incorrect, and return an error if needed
-  if not auth_header or auth_header != f"Bearer {SERVICE_AUTH_KEY}":
-        return jsonify({"error": "Unauthorized"}), 401
+  # if not auth_header or auth_header != f"Bearer {SERVICE_AUTH_KEY}":
+  #       return jsonify({"error": "Unauthorized"}), 401
 
 
 # Add a route to get all todos
 @app.route("/todos", methods=["GET"])
 async def get_todos():
   return jsonify(TODOS)
+
+
+@app.route("/gpt_proxy", methods=["POST"])
+async def get_query_proxied():
+    request_data = await request.get_json()
+    query = request_data.get("query", "")
+
+    url = f"https://api.openai.com/v1/chat/completions"
+    headers = {
+        'Authorization': f'Bearer {OPENAI_API_KEY}',
+        'Content-Type': 'application/json',
+    }
+    payload = {
+            "model":  "gpt-3.5-turbo",
+            "messages": [
+        {
+            "role": "system",
+            "content": "You are a helpful assistant."
+        },
+        {
+            "role": "user",
+            "content": query
+        }
+            ],
+        }
+
+    with requests.Session() as session:
+        session.headers.update(headers)
+        result = session.post(url, json=payload, headers=headers)
+        assert result.status_code == 200, f"Got status code {result.status_code} from OpenAI API"
+        return_message = result.json()
+        return jsonify({"query": query,  "txtresponse": return_message['choices'][0]['message']['content']})
 
 
 # Add a route to get all todos for a specific user

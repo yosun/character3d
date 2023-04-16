@@ -1,3 +1,10 @@
+### Launch API ###
+```bash
+ docker build . -t proxy-api
+ docker run  -it --rm -e OPENAI_API_KEY={api_kkey}  -p 5004:5004  proxy-api       
+```
+
+
 <p align="center">
   <img width="180" src="./logo.svg" alt="ChatGPT TODO List">
   <h1 align="center">chat-todo-plugin</h1>
