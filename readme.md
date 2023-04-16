@@ -7,11 +7,22 @@ The user sends data posted a form variable called `query` and the app expects a 
 ```
 public class GeneralizedEndpointResponse
 {
-    public string query; // nice to have (the original query the user setn) 
+    public string query; // nice to have (the original query the user sent) 
     public string txtresponse; // required 
     public string urlpolly; // url to a MP3 file - optional, by default AWS Polly will be used to text to speech
 }
 ```
+json version of it (replace values with your own, not the commented dummy text)
+``` 
+{
+    "query": " // nice to have (the original query the user sent)  ",
+    "txtresponse": "// required ",
+    "urlpolly: " // url to a MP3 file - optional, by default AWS Polly will be used to text to speech"
+}
+```
+
+
+
 ```mermaid
 sequenceDiagram
 User ->> App: things to say to AI
