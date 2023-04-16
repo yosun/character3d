@@ -45,6 +45,13 @@ async def get_todo_user(username):
 # Add a route to add a todo for a specific user
 @app.route("/todos/<string:username>", methods=["POST"])
 async def add_todo(username):
+    """
+      [POST]
+      Add a todo for a specific user.
+        {
+            "todo": "something  to do"
+        }
+    """
     request_data = await request.get_json()
     todo = request_data.get("todo", "")
     TODOS.setdefault(username, []).append(todo)
